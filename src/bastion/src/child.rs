@@ -17,7 +17,6 @@ use lightproc::prelude::*;
 use lightproc::proc_state::EmptyProcState;
 use qutex::Qutex;
 use std::fmt::{self, Debug, Formatter};
-use std::fs::read_to_string;
 use std::future::Future;
 use std::pin::Pin;
 use std::task::{Context, Poll};
@@ -231,6 +230,10 @@ impl Child {
                 msg: BastionMessage::Faulted { .. },
                 ..
             } => unimplemented!(),
+            Envelope {
+                msg: BastionMessage::Heartbeat,
+                ..
+            } => unreachable!(),
         }
 
         Ok(())

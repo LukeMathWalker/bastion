@@ -1296,6 +1296,10 @@ impl Supervisor {
                 msg: BastionMessage::Faulted { id },
                 ..
             } => self.cleanup_supervised_object(id).await,
+            Envelope {
+                msg: BastionMessage::Heartbeat,
+                ..
+            } => unreachable!(),
         }
 
         Ok(())

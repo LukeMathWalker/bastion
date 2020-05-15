@@ -227,6 +227,7 @@ pub(crate) enum BastionMessage {
     Faulted {
         id: BastionId,
     },
+    Heartbeat,
 }
 
 #[derive(Debug)]
@@ -484,6 +485,10 @@ impl BastionMessage {
         BastionMessage::Faulted { id }
     }
 
+    pub(crate) fn heartbeat() -> Self {
+        BastionMessage::Heartbeat
+    }
+
     pub(crate) fn try_clone(&self) -> Option<Self> {
         trace!("{:?}: Trying to clone.", self);
         let clone = match self {
@@ -523,6 +528,7 @@ impl BastionMessage {
             BastionMessage::SetState { state } => BastionMessage::set_state(state.clone()),
             BastionMessage::Stopped { id } => BastionMessage::stopped(id.clone()),
             BastionMessage::Faulted { id } => BastionMessage::faulted(id.clone()),
+            BastionMessage::Heartbeat => BastionMessage::heartbeat(),
         };
 
         Some(clone)
